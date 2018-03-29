@@ -53,6 +53,12 @@
 				<el-option v-for="(item,i) in item.options" :key="item.id" :label="item.id" :value="item.value">
 				</el-option>
 			</el-select>
+			 <el-date-picker
+				v-if='item.type === "date"'
+			  v-model="form[item.prop]"
+			  type="date"
+			  placeholder="选择日期">
+			</el-date-picker>
 		</el-form-item>
 	</el-form>
 	<div slot="footer" class="dialog-footer">
