@@ -448,6 +448,41 @@ export const constantRouterMap = [
         meta: { title: '测试交易', icon: 'table' },
       }, 
     ]
+  },
+  {
+    path: '/extend',
+    component: Layout,
+    redirect: '/extend/subscribe/index',
+    name: '拓展',
+    meta: { title: '拓展', icon: 'tree' },
+    children:[
+      {
+        path: '/extend/subscribe',
+        name: '认购',
+        component: () => import('@/views/extend/subscribe/index'),
+        meta: { title: '认购管理', icon: 'table' },
+        children: [
+          {
+            path: 'message',
+            name: '认购管理',
+            component: () => import('@/views/extend/subscribe/message'),
+            meta: { title: '认购管理' },
+          }, 
+           {
+            path: 'record',
+            name: '认购纪录',
+            component: () => import('@/views/extend/subscribe/record'),
+            meta: { title: '认购纪录'},
+          }, {
+            path: 'give',
+            name: '认购赠送',
+            component: () => import('@/views/extend/subscribe/give'),
+            meta: { title: '认购赠送'},
+          }, 
+        ]
+      }
+    ]
+    
   }
 //  { path: '*', redirect: '/404', hidden: true }
 ]

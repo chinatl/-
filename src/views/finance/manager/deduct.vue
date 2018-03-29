@@ -2,7 +2,7 @@
 <div class="layout">
 <el-form ref="form" :model="form" label-width="120px">
  <el-form-item label="币种：">
-		<el-select v-model="form.vName" style='width:440px'>
+		<el-select v-model="form.vName" style='width:440px' placeholder="请输入币种">
 				<el-option
 				  v-for="item in options"
 				  :key="item.id"
@@ -49,43 +49,61 @@
 		methods: {
 			onSubmit() {
 				Get({
-					url: 'virtualWallet/findvTotal',
+					url: 'log/findIdByName',
 					data: {
-						vName: this.form.vName,
 						nickName: this.form.nickName,
 					},
 					success: res => {
-						if (res.data.vTotal < this.form.number) {
-							this.$message({
-								title: '成功',
-								message: '扣钱失败！用户余额不足',
-								type: 'error',
-								duration: 2000
-							})
-							return 
-						}
+						var userId = res.data.id;
 						Get({
-							url: 'virtualWallet/findvTotal',
+							url: 'currencyManagement/findIdByvName',
 							data: {
-								vTotal: res.data.vTotal - this.form.number,
-								virtualId: res.data.virtualId,
-								userId: res.data.userId,
+								vName: this.form.vName,
 							},
-							success: res => {
-								this.form.vName = '';
-								this.form.nickName = '';
-								this.form.number = '';
-								this.$notify({
-									title: '成功',
-									message: '扣钱成功！',
-									type: 'success',
-									duration: 2000
+							success:res=>{
+								var virtualId = res.data.id;
+								Get({
+									url: 'virtualWallet/findvTotal',
+									data: {
+										vName: virtualId,
+										nickName: userId,
+									},
+									success:res=>{
+										if(res.data.vTotal < this.form.number){
+											this.$notify({
+												title: '失败',
+												message: '余额不足',
+												type: 'error',
+												duration: 2000
+											})
+											return
+										}
+										Post({
+											url: 'virtualWallet/deductvTotal',
+											data: {
+												vTotal: this.form.number,
+												virtualId: virtualId,
+												userId: userId,
+											},
+											success: res => {
+												this.form.vName = '';
+												this.form.nickName = '';
+												this.form.number = '';
+												this.$notify({
+													title: '成功',
+													message: '扣钱成功！',
+													type: 'success',
+													duration: 2000
+												})
+											}
+										})
+									}
 								})
+								
 							}
 						})
 					}
 				})
-
 			}
 		}
 	}

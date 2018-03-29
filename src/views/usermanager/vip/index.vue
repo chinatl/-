@@ -16,21 +16,21 @@
 		data() {
 			return {
 				head_data: [{
-					label: '真实姓名',
-					prop: 'loginName',
+					label: 'id',
+					prop: 'id',
 				}, {
-					label: '操作类型',
-					prop: 'isStart',
+					label: 'vip等级',
+					prop: 'viplevel',
 					type: 'select',
 					options: [{
-						id: '开启',
-						value: '0'
+						id: '1',
+						value: '1'
 					}, {
-						id: '禁用',
-						value: "1"
+						id: '2',
+						value: "2"
 					}, {
-						id: '全部',
-						value: '2'
+						id: '3',
+						value: '3'
 					}]
 				}, {
 					type: 'search'
@@ -38,51 +38,49 @@
 					type: 'add'
 				}],
 				form_data: [{
-					label: '登录名',
-					prop: 'loginName',
+					label: 'id',
+					prop: 'id',
 				}, {
-					label: '登录密码',
-					prop: 'loginPassword',
-				}, {
-					label: '分组',
-					prop: 'organize',
-				}, {
-					label: '电话',
-					prop: 'phone',
-				}, {
-					label: '邮箱',
-					prop: 'email',
-				}, {
-					label: '状态',
-					prop: 'isStart',
+					label: 'vip等级',
+					prop: 'viplevel',
 					type: 'select',
 					default: '0',
 					options: [{
-						id: '启用',
-						value: '0'
+						id: '1',
+						value: '1'
 					}, {
-						id: '关闭',
-						value: "1"
+						id: '2',
+						value: "2"
+					}, {
+						id: '3',
+						value: "3"
 					}]
+				}, {
+					label: '交易总消费金额',
+					prop: 'socre',
+				}, {
+					label: '交易手续费折扣',
+					prop: 'tradingPoundageDiscount',
+				}, {
+					label: '提现手续费折扣',
+					prop: 'reflectPoundageDiscount',
 				}],
 				table_data: [{
-					label: '用户名',
-					prop: 'loginName',
+					label: 'id',
+					prop: 'id',
 					width: 80
 				}, {
-					label: '分组',
-					prop: 'organize'
+					label: 'vip等级',
+					prop: 'viplevel'
 				}, {
-					label: '手机号',
-					prop: 'phone'
+					label: '交易总消费金额',
+					prop: 'socre'
 				}, {
-					label: '邮箱',
-					prop: 'email'
-				}, {
-					label: '状态',
-					prop: 'isStart',
-					type: 'status',
-					width: 120
+					label: '交易手续费折扣',
+					prop: 'tradingPoundageDiscount'
+				},{
+					label: '提现手续费折扣',
+					prop: 'reflectPoundageDiscount'
 				}, {
 					label: '操作',
 					type: 'action',
@@ -90,8 +88,10 @@
 				}],
 				url: {
 					search: {
-						url: 'vip/findAll',
-						params: {},
+						url: 'vip/findallvipuser',
+						params: {
+							viplevel:'',
+						},
 					},
 					add: {
 						url: 'vip/addvipuser',
@@ -106,12 +106,12 @@
 						}]
 					},
 					update: {
-						url: 'admin/updateAdmin',
+						url: 'vip/updatevipuserbyid',
 						params: [
 							{
-							name: 'viplevel',
+							name: 'id',
 						}, {
-							name: 'vipid',
+							name: 'viplevel',
 						}, {
 							name: 'socre',
 						}, {
@@ -121,27 +121,27 @@
 						}]
 					},
 					update_status: {
-						url: 'admin/updateisStart',
+						url: 'vip/updateisStart',
 						params: [{
 							name: 'id',
 						}, {
-							name: 'isStart',
+							name: 'viplevel',
 						}],
-						query: 'isStart'
+						query: 'viplevel'
 					},
 					del: {
 						url: 'vip/deletevipuserbyid',
 						params: [{
-							name: 'vipid1',
+							name: 'id',
 						}]
 					},
 					find: {
-						url: 'adminLog/findAllById',
+						url: 'vip/findAllById',
 						params: [{
-							name: 'nickName',
+							name: 'viplevel',
 						}],
-						data: 'id',
-						query: 'userId',
+						data: 'viplevel',
+						query: 'viplevel',
 					}
 				}
 			}
