@@ -1,0 +1,306 @@
+[
+	{
+		path: '/system',
+		name: '系统',
+		children: [
+			{
+				path: 'index',
+				name: '系统预览',
+      },
+			{
+				path: 'safe',
+				name: '安全中心',
+      }
+    ]
+  }, {
+		path: '/set',
+		name: '设置',
+		children: [
+			{
+				path: 'index',
+				name: '基本设置',
+      },
+			{
+				path: 'visit',
+				name: '访问配置',
+      }, {
+				path: 'service',
+				name: '客服配置',
+      }, {
+				path: 'else',
+				name: '其他配置',
+      }, {
+				path: 'message',
+				name: '短信配置',
+      }, {
+				path: 'register',
+				name: '注册配置',
+      }, {
+				path: 'page',
+				name: '页面配置',
+      },
+    ]
+  }, {
+		path: '/content',
+		name: '内容',
+		children: [
+			{
+				path: 'index',
+				name: '文章管理',
+      },
+			{
+				path: 'tree1',
+				name: '文章类型',
+      },
+			{
+				path: 'tree2',
+				name: '广告管理',
+      },
+			{
+				path: 'tree3',
+				name: '友情链接',
+      },
+			{
+				path: 'tree4',
+				name: '多语言',
+      },
+			{
+				path: 'tree5',
+				name: '多语言类型',
+      },
+			{
+				path: 'tree6',
+				name: '导航配置',
+      }
+    ]
+  }, {
+		path: '/usermanager',
+		name: '用户',
+		children: [
+			{
+				path: '/usermanager/user',
+				name: '用户管理',
+				children: [
+					{
+						path: 'index',
+						name: '用户管理',
+			}, {
+						path: 'valitade',
+						name: '用户验证',
+			},
+					{
+						path: 'log',
+						name: '操作日志',
+			}, {
+						path: 'wallet',
+						name: '用户钱包',
+			}, {
+						path: 'address',
+						name: '提现地址',
+			}, {
+						path: 'property',
+						name: '用户财产',
+			}, {
+						path: 'change',
+						name: '转入地址',
+			}, {
+						path: 'create',
+						name: '地址生成',
+      }
+		]
+      },
+			{
+				path: '/usermanager/admin',
+				name: '管理员管理',
+				children: [
+					{
+						path: 'index',
+						name: '管理员管理',
+			},
+					{
+						path: 'log',
+						name: '管理员日志',
+			}, {
+						path: 'list',
+						name: '权限列表',
+			}
+		]
+      }, {
+				path: '/usermanager/action',
+				name: '行为管理',
+				children: [
+					{
+						path: 'index',
+						name: '行为管理',
+			},
+					{
+						path: 'log',
+						name: '行为日志',
+			}
+		]
+      }, {
+				path: 'vip',
+				name: '会员管理',
+      },
+    ]
+  }, {
+		path: '/finance',
+		name: '财务',
+		children: [
+			{
+				path: '/finance/manager',
+				name: '财务管理',
+				children: [
+					{
+						path: 'rechange',
+						name: '万能充值',
+			},
+					{
+						path: 'deduct',
+						name: '万能扣钱',
+			}, {
+						path: 'all',
+						name: '财务统计',
+			}, {
+						path: 'ranking',
+						name: '提现地址',
+			}
+		]
+      },
+			{
+				path: '/finance/withdraw',
+				name: '充值提现',
+				children: [
+					{
+						path: 'rechange',
+						name: '账户充值',
+			},
+					{
+						path: 'method',
+						name: '充值方式',
+			}, {
+						path: 'config',
+						name: '充值配置',
+			}, {
+						path: 'turnout',
+						name: '账户提现',
+			}, {
+						path: 'configout',
+						name: '提现配置',
+			}
+		]
+      }, {
+				path: '/finance/fictitious',
+				name: '虚拟币管理',
+				children: [
+					{
+						path: 'turnin',
+						name: '虚拟币转入'
+			},
+					{
+						path: 'turnout',
+						name: '虚拟币转出',
+			}
+		]
+      }
+    ]
+  }, {
+		path: '/tools',
+		name: '工具',
+		children: [
+			{
+				path: 'table',
+				name: '清理缓存',
+      },
+			{
+				path: 'tree1',
+				name: '列队检查',
+      },
+			{
+				path: 'tree12',
+				name: '备份数据',
+      },
+			{
+				path: 'tree5',
+				name: '还原数据',
+      },
+			{
+				path: 'tree4',
+				name: '附件管理',
+      }
+    ]
+  }, {
+		path: '/market',
+		name: '市场',
+		children: [
+			{
+				path: '/market/trade',
+				name: '交易管理',
+				children: [
+					{
+						path: 'index',
+						name: '交易订单',
+			},
+					{
+						path: 'market',
+						name: '交易市场',
+			}, {
+						path: 'zone',
+						name: '市场分区',
+			}, {
+						path: 'log',
+						name: '市场记录',
+			}, {
+						path: 'cancel',
+						name: '自动撤单',
+			}, {
+						path: 'set',
+						name: '交易设置',
+			}
+		]
+      },
+			{
+				path: 'count',
+				name: '统计管理',
+      }, {
+				path: 'test',
+				name: '测试交易',
+      },
+    ]
+  },
+	{
+		path: '/extend',
+		name: '拓展',
+		children: [
+			{
+				path: '/extend/subscribe',
+				name: '认购',
+				children: [
+					{
+						path: 'message',
+						name: '认购管理',
+          },
+					{
+						path: 'record',
+						name: '认购纪录',
+          }, {
+						path: 'market',
+						name: '认购市场',
+          }, {
+						path: 'give',
+						name: '认购赠送',
+          }, {
+						path: 'title',
+						name: '认购题目',
+          },
+        ],
+
+      },
+			{
+				path: 'currency',
+				name: '币种管理',
+  },
+    ]
+  },
+
+]
