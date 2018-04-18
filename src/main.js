@@ -15,13 +15,25 @@ import store from './store'
 import * as filters from './filters' // 全局filter
 
 import '@/icons' // icon
-import '@/permission' // permission control
+// import '@/permission' // permission control
+
+import Post from '@/api/post'
+Post({
+	url:'admin/login',
+	data:{
+		loginName:'xiaomi',
+		loginPassword:123456
+	},
+	success:res=>{
+		console.log(res)
+	}
+})
 
 Vue.use(ElementUI, { locale })
-console.log(filters)
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
+
 
 Vue.config.productionTip = false
 

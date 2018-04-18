@@ -49,10 +49,32 @@
 	<el-form ref="dataForm" label-position="right" label-width="160px" style='width: 400px; margin-left:50px;'>
 		<el-form-item prop="type" v-for='item in form_data' :label="item.label+'：'">
 			<el-input v-model='form[item.prop]' v-if='item.type === undefined'></el-input>
+			<el-form-item >
+			    <el-input type="textarea" v-model="form.desc" v-if='item.type === "textarea"'></el-input>
+			  </el-form-item>
 			<el-select v-model="form[item.prop]" placeholder="请选择" value-key="id" v-if='item.type === "select"'>
 				<el-option v-for="(item,i) in item.options" :key="item.id" :label="item.id" :value="item.value">
 				</el-option>
 			</el-select>
+			 <el-date-picker
+				v-if='item.type === "date"'
+			  v-model="form[item.prop]"
+			  type="date"
+			  placeholder="选择日期">
+			</el-date-picker>
+			<el-upload
+				  class="upload-demo"
+				  action="https://jsonplaceholder.typicode.com/posts/"
+				  :on-preview="handlePreview"
+				  :on-remove="handleRemove"
+				  :before-remove="beforeRemove"
+				  multiple
+				  :limit="3"
+				  :on-exceed="handleExceed"
+				   v-if='item.type === "uplode"'>
+				  <el-button size="small" type="primary">点击上传</el-button>
+				  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+				</el-upload>
 		</el-form-item>
 	</el-form>
 	<div slot="footer" class="dialog-footer">
@@ -60,7 +82,7 @@
 		<el-button type="primary" @click="agree_click">确 定</el-button>
 	</div>
 </el-dialog>
-<div class="pagination-container page_size">
+<div class="pagination-container page_size" v-if='!isPage'>
 	<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.pageNo" :page-sizes="[5, 10, 15, 20]" :page-size="listQuery.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
 	</el-pagination>
 </div>
@@ -79,7 +101,7 @@
 		directives: {
 			waves
 		},
-		props: ['urlData', 'headData', 'formData', 'tableData'],
+		props: ['urlData', 'headData', 'formData', 'tableData','page'],
 		data() {
 			return {
 				head_data: [],
@@ -135,11 +157,13 @@
 					params: {
 
 					},
-				}
+				},
+				isPage:false
 			}
 		},
 		created() {
 			/*表单数据*/
+			this.isPage = this.$props.page;
 			this.form_data = Object.assign({}, this.$props.formData);
 			for (var i = 0; i < this.$props.formData.length; i++) {
 				let v = this.$props.formData[i];
@@ -197,7 +221,11 @@
 				data: temp_search,
 				success: res => {
 					this.list = res.data;
+					if(this.isPage){
+						return
+					}
 					this.total = res.extra.pageData.totalCount;
+
 				}
 			})
 		},
@@ -215,6 +243,9 @@
 					data: this.listQuery,
 					success: res => {
 						this.list = res.data;
+						if(this.isPage){
+							return
+						}
 						this.total = res.extra.pageData.totalCount;
 					}
 				})
@@ -224,7 +255,15 @@
 			},
 			agree_click() {
 				if (this.type == 'add') {
+					if(this.form.endTime){
+						this.form.endTime = parseTime(this.form.endTime,'{y}-{m}-{d} {h}:{i}:{s}')
+					}
+					if(this.form.startTime){
+						this.form.startTime = parseTime(this.form.startTime,'{y}-{m}-{d} {h}:{i}:{s}')
+					}
+					console.log(this.form)
 					if (this.find_url.status) {
+						console.log('1')
 						var find_data = null;
 						if(this.find_url.check_name){
 							for(var k in this.find_url.params){
@@ -281,6 +320,12 @@
 					}
 
 				} else {
+					if(this.form.endTime){
+						this.form.endTime = parseTime(this.form.endTime,'{y}-{m}-{d} {h}:{i}:{s}')
+					}
+					if(this.form.startTime){
+						this.form.startTime = parseTime(this.form.startTime,'{y}-{m}-{d} {h}:{i}:{s}')
+					}
 					Post({
 						url: this.update_url.url,
 						data: this.extend(this.update_url.params, this.form),
@@ -369,7 +414,19 @@
 					id: null,
 					nickName: '',
 				}
-			}
+			},
+			handleRemove(file, fileList) {
+		      console.log(file, fileList);
+		    },
+		    handlePreview(file) {
+		      console.log(file);
+		    },
+		    handleExceed(files, fileList) {
+		      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+		    },
+		    beforeRemove(file, fileList) {
+		      return this.$confirm(`确定移除 ${ file.name }？`);
+		    }
 
 		}
 	}

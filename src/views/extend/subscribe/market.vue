@@ -1,48 +1,55 @@
 <template>
   <div class="layout">
-
-<!--表格-->
+    <div class="filter-container">
+      <el-input  style="width: 200px;" class="filter-item" placeholder="请输入交易币名称" v-model="listQuery.subscriptionName">
+      </el-input>
+      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="select_item">搜索</el-button>
+      <el-button class="filter-item" style="margin-left: 10px;" @click="add_item" type="primary" icon="el-icon-edit">添加</el-button>
+    </div>
+<!-- 表格 -->
    
     <el-table :key='tableKey' :data="list" border fit highlight-current-row
       style="width: 100%;margin-top:20px">
-			<el-table-column align="center" label="id" width="80">
+			<el-table-column align="center" label="交易币名称" >
 					<template slot-scope="scope">
-					  <span>{{scope.row.id}}</span>
+					  <span>{{scope.row.subscriptionName}}</span>
 					</template>
 </el-table-column>
-<el-table-column align="center" label="是否开启自动撤单" >
+<el-table-column align="center" label="认购币名称" >
 	<template slot-scope="scope">
-					  <span>{{scope.row.isOpenTimer}}</span>
+					  <span>{{scope.row.currencyName}}</span>
 					</template>
 </el-table-column>
-<el-table-column align="center" label="自动撤单时间">
+<el-table-column align="center" label="交易比率">
 	<template slot-scope="scope">
-					  <span>{{scope.row.scanningTime}}</span>
+					  <span>{{scope.row.currencyRatio}}</span>
 					</template>
 </el-table-column>
 <el-table-column align="center" label="操作" width="150" class-name="small-padding">
 	<template slot-scope="scope">
 		  <el-button type="primary" size="mini" @click="edit_item(scope.row)">编辑</el-button>
+		  <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="del_item(scope.row)">删除
+		  </el-button>
 	</template>
 </el-table-column>
 </el-table>
-<template>
-	<div class="warning">
-		注：<br>
-			1、自动撤单适用于所有交易市场<br>
-			2、撤单的功能触发的临界值单位为:小时<br>
-			3、所有撤单均为不可逆<br>
-			4、撤单只能撤回未交易或者部分交易的订单</div>
-</template>
-<!--弹出层-->
+<!-- 弹出层 -->
 <el-dialog :title="title" :visible.sync="show_dialog">
 	<el-form ref="dataForm" label-position="left" label-width="140px" style='width: 400px; margin-left:50px;'>
-		<el-form-item label="是否开启自动撤单" prop="type">
-			<el-input v-model='form.isOpenTimer'></el-input>
+		<el-form-item label="交易币" prop="type">
+			<el-select v-model='form.subscriptionId'>
+				<el-option v-for="item in options" :key="item.id" :label="item.shortName" multiple :value="item.id"></el-option>
+			</el-select>
 		</el-form-item>
-		<el-form-item label="自动撤单时间" prop="type">
-			<el-input v-model='form.scanningTime'></el-input>
+		<el-form-item label="认购币" prop="type">
+			<el-select v-model='form.currencyId'>
+				<el-option v-for="item in options" :key="item.id" :label="item.shortName" multiple :value="item.id"></el-option>
+			</el-select>
 		</el-form-item>
+		<el-form-item label="交易比率" prop="type">
+			<el-input v-model='form.currencyRatio'></el-input>
+		</el-form-item>
+
 	</el-form>
 	<div slot="footer" class="dialog-footer">
 		<el-button @click="cancel_click">取 消</el-button>
@@ -79,9 +86,12 @@
 		data() {
 			return {
 				form: {
-					isOpenTimer: '', 
-					loginPassword: '', 
-					scanningTime: '', 
+					loginName: '', //登录名
+					loginPassword: '', //登录密码
+					organize: '', //分组
+					phone: '', //电话
+					email: '', //邮箱
+					isStart: '0', //状态（0：开启；1：关闭）
 					id: null
 				},
 				type: 'add',
@@ -93,20 +103,33 @@
 				listQuery: {
 					pageNo: 1,
 					pageSize: 5,
-					isStart: '2',
-					loginName: '',
+					shortName:''
 				},
+				options:[]
 			}
 		},
 		created() {
 			Get({
-				url: 'setRevoke/findAll',
+				url: 'subscriptionCurrency/findAll',
 				data: {
-					isOpenTimer: '',
-					scanningTime: ''
+					subscriptionName: '',
+					currencyName: '',
+					currencyRatio:'',
 				},
 				success: res => {
 					this.list = res.data;
+					// this.total = res.extra.pageData.totalCount;
+				}
+			}),
+			Get({
+				url: 'currencyManagement/findIdByvName',
+				data: {
+					shortName: '',
+					// currencyName: '',
+					// currencyRatio:'',
+				},
+				success: res => {
+					this.options = res.data;
 					// this.total = res.extra.pageData.totalCount;
 				}
 			})
@@ -114,10 +137,12 @@
 		methods: {
 			init() {
 				Get({
-					url: 'setRevoke/findAll',
+					url: 'subscriptionCurrency/findAll',
 					data: {
-						isOpenTimer: this.listQuery.isOpenTimer,
-						scanningTime: this.listQuery.scanningTime,
+						subscriptionName: this.listQuery.subscriptionName,
+						currencyName: this.listQuery.currencyName,
+						currencyRatio: this.listQuery.currencyRatio,
+						// pageSize: this.listQuery.pageSize,
 					},
 					success: res => {
 						this.list = res.data;
@@ -129,12 +154,34 @@
 				this.init_form();
 			},
 			agree_click() {
+				if (this.type == 'add') {
 					Post({
-						url: 'setRevoke/updateSetRevoke',
+						url: 'subscriptionCurrency/addSubscriptionCurrency',
+						data: {
+							subscriptionId: this.form.subscriptionId, 
+							currencyId: this.form.currencyId, 
+							currencyRatio: this.form.currencyRatio, 
+						},
+						success: res => {
+							this.show_dialog = false;
+							this.$notify({
+								title: '成功',
+								message: '增加成功',
+								type: 'success',
+								duration: 2000
+							})
+							this.init_form();
+							this.init();
+						}
+					})
+				} else {
+					Post({
+						url: 'subscriptionCurrency/updateSubscriptionCurrency',
 						data: {
 							id: this.form.id,
-							isOpenTimer: this.form.isOpenTimer, 
-							scanningTime: this.form.scanningTime, 
+							subscriptionId: this.form.subscriptionId, 
+							currencyId:this.form.currencyId,
+							currencyRatio: this.form.currencyRatio, 
 						},
 						success: res => {
 							this.show_dialog = false;
@@ -148,28 +195,8 @@
 							this.init_form();
 						}
 					})
-			
+				}
 			}, //点击弹出框确认的事件；
-			change_status(row) {
-				Post({
-					url: 'setRevoke/updateSetRevoke',
-					data: {
-						id: row.id,
-						isOpenTimer: this.form.isOpenTimer, 
-							scanningTime: this.form.scanningTime, 
-					},
-					success: res => {
-						this.$notify({
-							title: '成功',
-							message: '更新成功！',
-							type: 'success',
-							duration: 2000
-						})
-						this.init_form();
-						this.init();
-					}
-				})
-			},
 			select_item() {
 				this.listQuery.page = 1
 				this.init();
@@ -184,7 +211,7 @@
 			},
 			del_item(row, status) {
 				Post({
-					url: 'admin/deleteAdmin',
+					url: 'subscriptionCurrency/deleteSubscriptionCurrency',
 					data: {
 						id: row.id
 					},
@@ -230,11 +257,5 @@
 	}
 
 </script>
-<style>
-	.warning{
-		margin-top: 20px;
-		color: red;
-		line-height: 35px;
-		font-size: 12px;
-	}
-</style>
+
+

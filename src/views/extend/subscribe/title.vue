@@ -1,47 +1,51 @@
 <template>
   <div class="layout">
-
-<!--表格-->
+    <div class="filter-container">
+      <el-button class="filter-item" style="margin-left: 10px;" @click="add_item" type="primary" icon="el-icon-edit">添加</el-button>
+    </div>
+<!-- 表格 -->
    
     <el-table :key='tableKey' :data="list" border fit highlight-current-row
       style="width: 100%;margin-top:20px">
-			<el-table-column align="center" label="id" width="80">
+			<el-table-column align="center" label="序号" width="80">
 					<template slot-scope="scope">
-					  <span>{{scope.row.id}}</span>
+					  <span>{{scope.$index+1}}</span>
 					</template>
 </el-table-column>
-<el-table-column align="center" label="是否开启自动撤单" >
+<el-table-column align="center" label="题目" >
 	<template slot-scope="scope">
-					  <span>{{scope.row.isOpenTimer}}</span>
+					  <span>{{scope.row.timu}}</span>
 					</template>
 </el-table-column>
-<el-table-column align="center" label="自动撤单时间">
+<el-table-column align="center" label="题目显示开始时间" width="120">
 	<template slot-scope="scope">
-					  <span>{{scope.row.scanningTime}}</span>
+					  <span>{{scope.row.timuTime}}</span>
 					</template>
 </el-table-column>
-<el-table-column align="center" label="操作" width="150" class-name="small-padding">
+<el-table-column align="center" label="字体大小" width="120">
+	<template slot-scope="scope">
+					  <span>{{scope.row.fontSize}}</span>
+					</template>
+</el-table-column>
+<el-table-column align="center" label="操作"  class-name="small-padding" width="200">
 	<template slot-scope="scope">
 		  <el-button type="primary" size="mini" @click="edit_item(scope.row)">编辑</el-button>
+		  <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="del_item(scope.row)">删除
+		  </el-button>
 	</template>
 </el-table-column>
 </el-table>
-<template>
-	<div class="warning">
-		注：<br>
-			1、自动撤单适用于所有交易市场<br>
-			2、撤单的功能触发的临界值单位为:小时<br>
-			3、所有撤单均为不可逆<br>
-			4、撤单只能撤回未交易或者部分交易的订单</div>
-</template>
-<!--弹出层-->
+<!-- 弹出层 -->
 <el-dialog :title="title" :visible.sync="show_dialog">
 	<el-form ref="dataForm" label-position="left" label-width="140px" style='width: 400px; margin-left:50px;'>
-		<el-form-item label="是否开启自动撤单" prop="type">
-			<el-input v-model='form.isOpenTimer'></el-input>
+		<el-form-item label="题目" prop="type">
+			<el-input v-model='form.timu'></el-input>
 		</el-form-item>
-		<el-form-item label="自动撤单时间" prop="type">
-			<el-input v-model='form.scanningTime'></el-input>
+		<el-form-item label="题目显示开始时间" prop="type">
+			<el-input v-model='form.timuTime'></el-input>
+		</el-form-item>
+		<el-form-item label="字体大小" prop="type">
+			<el-input v-model='form.fontSize' ></el-input>
 		</el-form-item>
 	</el-form>
 	<div slot="footer" class="dialog-footer">
@@ -79,10 +83,10 @@
 		data() {
 			return {
 				form: {
-					isOpenTimer: '', 
-					loginPassword: '', 
-					scanningTime: '', 
-					id: null
+					id: '',
+					timu:'',
+					timuTime:'',
+					fontSize:''
 				},
 				type: 'add',
 				title: '数据添加',
@@ -93,17 +97,18 @@
 				listQuery: {
 					pageNo: 1,
 					pageSize: 5,
-					isStart: '2',
-					loginName: '',
+					id:'',
+					timu:'',
+					timuTime:'',
+					fontSize:''
 				},
 			}
 		},
 		created() {
 			Get({
-				url: 'setRevoke/findAll',
+				url: 'prompt/findAll',
 				data: {
-					isOpenTimer: '',
-					scanningTime: ''
+					timu:'',
 				},
 				success: res => {
 					this.list = res.data;
@@ -114,10 +119,13 @@
 		methods: {
 			init() {
 				Get({
-					url: 'setRevoke/findAll',
+					url: 'prompt/findAll',
 					data: {
-						isOpenTimer: this.listQuery.isOpenTimer,
-						scanningTime: this.listQuery.scanningTime,
+						id: this.listQuery.id,
+						timu: this.listQuery.timu,
+						timuTime: this.listQuery.timuTime,
+						fontSize: this.listQuery.fontSize,
+
 					},
 					success: res => {
 						this.list = res.data;
@@ -128,13 +136,41 @@
 			cancel_click() {
 				this.init_form();
 			},
+			upload_error(){
+				this.$message({
+					type:'error',
+					message:'上传失败'
+				})
+			},
 			agree_click() {
+				if (this.type == 'add') {
 					Post({
-						url: 'setRevoke/updateSetRevoke',
+						url: 'prompt/addPrompt',
+						data: {
+							timu: this.form.timu, 
+							timuTime: this.form.timuTime, 
+							fontSize: this.form.fontSize, 
+						},
+						success: res => {
+							this.show_dialog = false;
+							this.$notify({
+								title: '成功',
+								message: '增加成功',
+								type: 'success',
+								duration: 2000
+							})
+							this.init_form();
+							this.init();
+						}
+					})
+				} else {
+					Post({
+						url: 'prompt/updatePrompt',
 						data: {
 							id: this.form.id,
-							isOpenTimer: this.form.isOpenTimer, 
-							scanningTime: this.form.scanningTime, 
+							timu: this.form.timu, 
+							timuTime: this.form.timuTime, 
+							fontSize: this.form.fontSize, 
 						},
 						success: res => {
 							this.show_dialog = false;
@@ -148,28 +184,8 @@
 							this.init_form();
 						}
 					})
-			
+				}
 			}, //点击弹出框确认的事件；
-			change_status(row) {
-				Post({
-					url: 'setRevoke/updateSetRevoke',
-					data: {
-						id: row.id,
-						isOpenTimer: this.form.isOpenTimer, 
-							scanningTime: this.form.scanningTime, 
-					},
-					success: res => {
-						this.$notify({
-							title: '成功',
-							message: '更新成功！',
-							type: 'success',
-							duration: 2000
-						})
-						this.init_form();
-						this.init();
-					}
-				})
-			},
 			select_item() {
 				this.listQuery.page = 1
 				this.init();
@@ -184,7 +200,7 @@
 			},
 			del_item(row, status) {
 				Post({
-					url: 'admin/deleteAdmin',
+					url: 'prompt/deletePrompt',
 					data: {
 						id: row.id
 					},
@@ -215,13 +231,10 @@
 			init_form() {
 				this.show_dialog = false;
 				this.form = {
-					loginName: '', //登录名
-					loginPassword: '', //登录密码
-					organize: '', //分组
-					phone: '', //电话
-					email: '', //邮箱
-					isStart: '0', //状态（0：开启；1：关闭）
-					id: null
+					id: '',
+					timu:'',
+					timuTime:'',
+					fontSize:''
 				}
 
 			}
@@ -230,11 +243,12 @@
 	}
 
 </script>
-<style>
-	.warning{
-		margin-top: 20px;
-		color: red;
-		line-height: 35px;
-		font-size: 12px;
-	}
-</style>
+
+
+
+
+
+
+
+
+

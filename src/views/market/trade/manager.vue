@@ -65,6 +65,12 @@
 					{{scope.row.tradeMarket}}
 				</template>
 		</el-table-column>
+		<el-table-column align="center" width='120' label='图片'>
+				<template slot-scope="scope" >
+					
+				<img :src="scope.row.markUrl" alt="">
+				</template>
+		</el-table-column>
 		<el-table-column align="center" width='80' label='委托类型'>
 				<template slot-scope="scope" >
 					{{scope.row.entrustType ? '卖出' :"买入"}}
@@ -126,7 +132,10 @@
 		</el-table-column>
 		<el-table-column align="center" label='操作'>
 				<template slot-scope="scope" >
-					取消委托
+					<div type="primary" @click="cancel_click">
+						{{scope.row.poolStatus === 2 ? '取消委托' : null}}
+						{{scope.row.poolStatus === 0 ? '取消委托' : null}}
+					</div>
 				</template>
 		</el-table-column>
 </el-table>
@@ -223,20 +232,16 @@
 				this.listQuery.pageNo = val
 				this.init();
 			},
-			del_item(row, status) {
-				/*	Post({
-						url: this.delete_url.url,
-						data: params_data,
-						success: res => {
-							this.$notify({
-								title: '成功',
-								message: '删除成功！',
-								type: 'success',
-								duration: 2000
-							})
-							this.init();
-						}
-					})*/
+			cancel_click(row) {
+				Post({
+					url: 'setRevoke/manualRevoke',
+					data: {
+						id: row.id,
+					},
+					success: res => {
+						
+					}
+				})
 			},
 
 		}
@@ -254,5 +259,11 @@
 		float: left;
 		margin-right: 20px
 	}
+
+	img{
+		width: 100px;
+		height: 50px;
+	}
+
 
 </style>

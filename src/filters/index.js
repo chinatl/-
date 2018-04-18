@@ -17,10 +17,12 @@ export function timeAgo(time) {
 }
 
 export function parseTime(time, cFormat) {
+	if(time +'' === 'null'){
+		return 
+	}
 	if (arguments.length === 0) {
 		return null
 	}
-
 	if ((time + '').length === 10) {
 		time = +time * 1000
 	}

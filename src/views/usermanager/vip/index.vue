@@ -16,25 +16,6 @@
 		data() {
 			return {
 				head_data: [{
-					label: 'id',
-					prop: 'id',
-				}, {
-					label: 'vip等级',
-					prop: 'viplevel',
-					type: 'select',
-					options: [{
-						id: '1',
-						value: '1'
-					}, {
-						id: '2',
-						value: "2"
-					}, {
-						id: '3',
-						value: '3'
-					}]
-				}, {
-					type: 'search'
-				}, {
 					type: 'add'
 				}],
 				form_data: [{
@@ -90,7 +71,7 @@
 					search: {
 						url: 'vip/findallvipuser',
 						params: {
-							viplevel:'',
+
 						},
 					},
 					add: {

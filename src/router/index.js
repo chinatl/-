@@ -201,7 +201,12 @@ export const constantRouterMap = [
 				name: '转入地址',
 				component: () => import('@/views/usermanager/user/change'),
 				meta: { title: '转入地址'},
-			}
+			},{
+        path: 'create',
+        name: '地址生成',
+        component: () => import('@/views/usermanager/user/create'),
+        meta: { title: '地址生成'},
+      }
 		]
       }, 
       {
@@ -399,9 +404,9 @@ export const constantRouterMap = [
 		children:[
 			{
 			 	path: 'index',
-				name: '交易管理',
+				name: '交易订单',
 				component: () => import('@/views/market/trade/manager'),
-				meta: { title: '交易管理'},
+				meta: { title: '交易订单'},
 			},
 			{
 				path: 'market',
@@ -418,11 +423,6 @@ export const constantRouterMap = [
 				name: '市场记录',
 				component: () => import('@/views/market/trade/log'),
 				meta: { title: '市场记录'},
-			},{
-				path: 'error',
-				name: '交易误差',
-				component: () => import('@/views/market/trade/error'),
-				meta: { title: '交易误差'},
 			},{
 				path: 'cancel',
 				name: '自动撤单',
@@ -474,16 +474,33 @@ export const constantRouterMap = [
             component: () => import('@/views/extend/subscribe/record'),
             meta: { title: '认购纪录'},
           }, {
+            path: 'market',
+            name: '认购市场',
+            component: () => import('@/views/extend/subscribe/market'),
+            meta: { title: '认购市场'},
+          }, {
             path: 'give',
             name: '认购赠送',
             component: () => import('@/views/extend/subscribe/give'),
             meta: { title: '认购赠送'},
+          }, {
+            path: 'title',
+            name: '认购题目',
+            component: () => import('@/views/extend/subscribe/title'),
+            meta: { title: '认购题目'},
           }, 
-        ]
-      }
+        ],
+         
+      },
+      {
+        path: 'currency',
+        name: '币种管理',
+        component: () => import('@/views/extend/currency/index'),
+        meta: { title: '币种管理', icon: 'table' },
+  },
     ]
-    
-  }
+  },
+  
 //  { path: '*', redirect: '/404', hidden: true }
 ]
 
