@@ -25,483 +25,394 @@ export const constantRouterMap = [
 	
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
   {
     path: '/',
     component: Layout,
-    redirect: '/system/index',
-    name: 'Dashboard',
+    redirect: '/dashboard',
+    name: '主页',
     hidden: true,
     children: [{
-      path: '',
-      component: () => import('@/views/system/index')
+      path: '/dashboard',
+      component: () => import('@/views/finance/statistics')
     }]
   },
-  {
-    path: '/system',
+    {
+    path: '/user',
     component: Layout,
-    redirect: '/system/index',
-    name: 'system',
-    meta: { title: '系统', icon: 'example' },
+    redirect: '/user/list',
+    name: '用户管理',
+    meta: { title: '用户管理', icon: 'form' },
     children: [
       {
-        path: 'index',
-        name: '系统预览',
-        component: () => import('@/views/system/index'),
-        meta: { title: '系统预览', icon: 'table' }
+        path: 'list',
+        name: '用户列表',
+        component: () => import('@/views/user/list'),
+        meta: { title: '用户列表', icon: 'table'}
       },
       {
-        path: 'safe',
-        name: '安全中心',
-        component: () => import('@/views/system/safe'),
-        meta: { title: '安全中心', icon: 'form' }
-      }
-    ]
-  }, {
-    path: '/set',
-    component: Layout,
-    redirect: '/set/table',
-    name: 'set',
-    meta: { title: '设置', icon: 'form' },
-    children: [
-      {
-        path: 'index',
-        name: '基本设置',
-        component: () => import('@/views/set/index'),
-        meta: { title: '基本设置', icon: 'table'}
-      },
-      {
-        path: 'visit',
-        name: '访问配置',
-        component: () => import('@/views/set/visit'),
-        meta: { title: '访问配置', icon: 'tree' }
+        path: 'examine',
+        name: '身份审核',
+        component: () => import('@/views/user/examine'),
+        meta: { title: '身份审核', icon: 'tree' }
       },   {
-        path: 'service',
-        name: '客服配置',
-        component: () => import('@/views/set/service'),
-        meta: { title: '客服配置', icon: 'tree' }
+        path: 'log',
+        name: '登录日志',
+        component: () => import('@/views/user/log'),
+        meta: { title: '登录日志', icon: 'tree' }
       },   {
-        path: 'else',
-        name: '其他配置',
-        component: () => import('@/views/set/else'),
-        meta: { title: '其他配置', icon: 'tree' }
+        path: 'assets',
+        name: '用户资产',
+        component: () => import('@/views/user/assets'),
+        meta: { title: '用户资产', icon: 'tree' }
       },   {
-        path: 'message',
-        name: '短信配置',
-        component: () => import('@/views/set/message'),
-        meta: { title: '短信配置', icon: 'tree' }
+        path: 'address',
+        name: '转入地址',
+        component: () => import('@/views/user/address'),
+        meta: { title: '转入地址', icon: 'tree' }
       },   {
-        path: 'register',
-        name: '注册配置',
-        component: () => import('@/views/set/register'),
-        meta: { title: '注册配置', icon: 'tree' }
-      }, {
-        path: 'page',
-        name: '页面配置',
-        component: () => import('@/views/set/page'),
-        meta: { title: '页面配置', icon: 'tree' }
-      },
-    ]
-  }, {
-    path: '/content',
-    component: Layout,
-    redirect: '/content/index',
-    name: 'content',
-    meta: { title: '内容', icon: 'table' },
-    children: [
-     {
-        path: 'index',
-        name: '文章管理',
-        component: () => import('@/views/content/index'),
-        meta: { title: '文章管理', icon: 'table' }
-      },
-      {
-        path: 'tree1',
-        name: '文章类型',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '文章类型', icon: 'tree' }
-      },
-      {
-        path: 'tree2',
-        name: '广告管理',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '广告管理', icon: 'tree' }
-      },
-      {
-        path: 'tree3',
-        name: '友情链接',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '友情链接', icon: 'tree' }
-      },
-      {
-        path: 'tree4',
-        name: '多语言',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '多语言', icon: 'tree' }
-      },
-      {
-        path: 'tree5',
-        name: '多语言类型',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '多语言类型', icon: 'tree' }
-      },
-      {
-        path: 'tree6',
-        name: '导航配置',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '导航配置', icon: 'tree' }
-      }
-    ]
-  },{
-    path: '/usermanager',
-    component: Layout,
-    redirect: '/usermanager/user/index',
-    name: 'users',
-    meta: { title: '用户', icon: 'user' },
-    children: [
-      {
-        path: '/usermanager/user',
-        name: '用户管理',
-        component: () => import('@/views/usermanager/user/index'),
-        meta: { title: '用户管理', icon: 'table' },
-		children:[
-			{
-			 	path: 'index',
-				name: '用户管理',
-				component: () => import('@/views/usermanager/user/manager'),
-				meta: { title: '用户管理'},
-			},	{
-			 	path: 'valitade',
-				name: '用户验证',
-				component: () => import('@/views/usermanager/user/manager'),
-				meta: { title: '用户验证'},
-			},
-			{
-				path: 'log',
-				name: '操作日志',
-				component: () => import('@/views/usermanager/user/log'),
-				meta: { title: '操作日志'},
-			},{
-				path: 'wallet',
-				name: '用户钱包',
-				component: () => import('@/views/usermanager/user/wallet'),
-				meta: { title: '用户钱包'},
-			},{
-				path: 'address',
-				name: '提现地址',
-				component: () => import('@/views/usermanager/user/address'),
-				meta: { title: '提现地址'},
-			},{
-				path: 'property',
-				name: '用户财产',
-				component: () => import('@/views/usermanager/user/property'),
-				meta: { title: '用户财产'},
-			},{
-				path: 'change',
-				name: '转入地址',
-				component: () => import('@/views/usermanager/user/change'),
-				meta: { title: '转入地址'},
-			},{
-        path: 'create',
+        path: 'generate',
         name: '地址生成',
-        component: () => import('@/views/usermanager/user/create'),
-        meta: { title: '地址生成'},
-      }
-		]
-      }, 
-      {
-        path: '/usermanager/admin',
-        name: '管理员管理',
-        component: () => import('@/views/usermanager/admin/index'),
-        meta: { title: '管理员管理', icon: 'table' },
-		children:[
-			{
-			 	path: 'index',
-				name: '管理员管理',
-				component: () => import('@/views/usermanager/admin/manager'),
-				meta: { title: '管理员管理'},
-			},
-			{
-				path: 'log',
-				name: '管理员日志',
-				component: () => import('@/views/usermanager/admin/log'),
-				meta: { title: '管理员日志'},
-			},{
-				path: 'list',
-				name: '权限列表',
-				component: () => import('@/views/usermanager/admin/list'),
-				meta: { title: '权限列表'},
-			}
-		]
-      }, {
-        path: '/usermanager/action',
-        name: '行为管理',
-        component: () => import('@/views/usermanager/action/index'),
-        meta: { title: '行为管理', icon: 'table' },
-		children:[
-			{
-			 	path: 'index',
-				name: '行为管理',
-				component: () => import('@/views/usermanager/action/index'),
-				meta: { title: '行为管理'},
-			},
-			{
-				path: 'log',
-				name: '行为日志',
-				component: () => import('@/views/usermanager/action/log'),
-				meta: { title: '行为日志'},
-			}
-		]
+        component: () => import('@/views/user/generate'),
+        meta: { title: '地址生成', icon: 'tree' }
       }, {
         path: 'vip',
         name: '会员管理',
-        component: () => import('@/views/usermanager/vip/index'),
-        meta: { title: '会员管理', icon: 'table' },
-      }, 
-    ]
-  },{
-    path: '/finance',
-    component: Layout,
-    redirect: '/finance/user/index',
-    name: 'finance',
-    meta: { title: '财务', icon: 'user' },
-    children: [
-      {
-        path: '/finance/manager',
-        name: '财务管理',
-        component: () => import('@/views/finance/manager/index'),
-        meta: { title: '财务管理', icon: 'table' },
-		children:[
-			{
-			 	path: 'rechange',
-				name: '万能充值',
-				component: () => import('@/views/finance/manager/rechange'),
-				meta: { title: '万能充值'},
-			},
-			{
-				path: 'deduct',
-				name: '万能扣钱',
-				component: () => import('@/views/finance/manager/deduct'),
-				meta: { title: '万能扣钱'},
-			},{
-				path: 'all',
-				name: '财务统计',
-				component: () => import('@/views/finance/manager/all'),
-				meta: { title: '财务统计'},
-			},{
-				path: 'ranking',
-				name: '资产排名',
-				component: () => import('@/views/finance/manager/ranking'),
-				meta: { title: '提现地址'},
-			}
-		]
-      }, 
-      {
-        path: '/finance/withdraw',
-        name: '充值提现',
-        component: () => import('@/views/finance/withdraw/index'),
-        meta: { title: '充值提现', icon: 'table' },
-		children:[
-			{
-			 	path: 'rechange',
-				name: '账户充值',
-				component: () => import('@/views/finance/withdraw/rechange'),
-				meta: { title: '账户充值'},
-			},
-			{
-				path: 'method',
-				name: '充值方式',
-				component: () => import('@/views/finance/withdraw/method'),
-				meta: { title: '充值方式'},
-			},{
-				path: 'config',
-				name: '充值配置',
-				component: () => import('@/views/finance/withdraw/config'),
-				meta: { title: '充值配置'},
-			},{
-				path: 'turnout',
-				name: '账户提现',
-				component: () => import('@/views/finance/withdraw/turnout'),
-				meta: { title: '账户提现'},
-			},{
-				path: 'configout',
-				name: '提现配置',
-				component: () => import('@/views/finance/withdraw/configout'),
-				meta: { title: '提现配置'},
-			}
-		]
+        component: () => import('@/views/user/vip'),
+        meta: { title: '会员管理', icon: 'tree' }
       }, {
-        path: '/finance/fictitious',
-        name: '虚拟币管理',
-        component: () => import('@/views/finance/fictitious/index'),
-        meta: { title: '虚拟币管理', icon: 'table' },
-		children:[
-			{
-			 	path: 'turnin',
-				name: '虚拟币转入',
-				component: () => import('@/views/finance/fictitious/turnin'),
-				meta: { title: '虚拟币转入'},
-			},
-			{
-				path: 'turnout',
-				name: '虚拟币转出',
-				component: () => import('@/views/finance/fictitious/turnout'),
-				meta: { title: '虚拟币转出'},
-			}
-		]
-      }
-    ]
-  },{
-    path: '/tools',
-    component: Layout,
-    redirect: '/tools/table',
-    name: 'tools',
-    meta: { title: '工具', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: '清理缓存',
-        component: () => import('@/views/table/index'),
-        meta: { title: '清理缓存', icon: 'table' }
-      },
-      {
-        path: 'tree1',
-        name: '列队检查',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '列队检查', icon: 'tree' }
-      },
-      {
-        path: 'tree12',
-        name: '备份数据',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '备份数据', icon: 'tree' }
-      },
-      {
-        path: 'tree5',
-        name: '还原数据',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '还原数据', icon: 'tree' }
-      },
-      {
-        path: 'tree4',
-        name: '附件管理',
-        component: () => import('@/views/tree/index'),
-        meta: { title: '附件管理', icon: 'tree' }
-      }
-    ]
-  },{
-    path: '/market',
-    component: Layout,
-    redirect: '/market/trade/index',
-    name: '市场',
-    meta: { title: '市场', icon: 'tree' },
-    children: [
-      {
-        path: '/market/trade',
-        name: '交易管理',
-        component: () => import('@/views/market/trade/index'),
-        meta: { title: '交易管理', icon: 'table' },
-		children:[
-			{
-			 	path: 'index',
-				name: '交易订单',
-				component: () => import('@/views/market/trade/manager'),
-				meta: { title: '交易订单'},
-			},
-			{
-				path: 'market',
-				name: '交易市场',
-				component: () => import('@/views/market/trade/market'),
-				meta: { title: '交易市场'},
-			},{
-				path: 'zone',
-				name: '市场分区',
-				component: () => import('@/views/market/trade/zone'),
-				meta: { title: '市场分区'},
-			},{
-				path: 'log',
-				name: '市场记录',
-				component: () => import('@/views/market/trade/log'),
-				meta: { title: '市场记录'},
-			},{
-				path: 'cancel',
-				name: '自动撤单',
-				component: () => import('@/views/market/trade/cancel'),
-				meta: { title: '自动撤单'},
-			},{
-				path: 'set',
-				name: '交易设置',
-				component: () => import('@/views/market/trade/set'),
-				meta: { title: '交易设置'},
-			}
-		]
-      }, 
-       {
-        path: 'count',
-        name: '统计管理',
-        component: () => import('@/views/market/count/index'),
-        meta: { title: '成交统计', icon: 'table' },
+        path: 'bill',
+        name: '综合账单',
+        component: () => import('@/views/user/bill'),
+        meta: { title: '综合账单', icon: 'tree' }
       }, {
-        path: 'test',
-        name: '测试交易',
-        component: () => import('@/views/market/test/index'),
-        meta: { title: '测试交易', icon: 'table' },
-      }, 
+        path: 'review',
+        name: '提现审核',
+        component: () => import('@/views/user/review'),
+        meta: { title: '提现审核', icon: 'tree' }
+      },{
+        path: 'rechangelog',
+        name: '充值提现记录',
+        component: () => import('@/views/user/rechangelog'),
+        meta: { title: '充值提现记录', icon: 'tree' }
+      },
     ]
   },
   {
-    path: '/extend',
+    path: '/admin',
     component: Layout,
-    redirect: '/extend/subscribe/index',
-    name: '拓展',
-    meta: { title: '拓展', icon: 'tree' },
-    children:[
+    redirect: '/admin/list',
+    name: '管理员管理',
+    meta: { title: '管理员管理', icon: 'example' },
+    children: [
       {
-        path: '/extend/subscribe',
-        name: '认购',
-        component: () => import('@/views/extend/subscribe/index'),
-        meta: { title: '认购管理', icon: 'table' },
-        children: [
-          {
-            path: 'message',
-            name: '认购管理',
-            component: () => import('@/views/extend/subscribe/message'),
-            meta: { title: '认购管理' },
-          }, 
-           {
-            path: 'record',
-            name: '认购纪录',
-            component: () => import('@/views/extend/subscribe/record'),
-            meta: { title: '认购纪录'},
-          }, {
-            path: 'market',
-            name: '认购市场',
-            component: () => import('@/views/extend/subscribe/market'),
-            meta: { title: '认购市场'},
-          }, {
-            path: 'give',
-            name: '认购赠送',
-            component: () => import('@/views/extend/subscribe/give'),
-            meta: { title: '认购赠送'},
-          }, {
-            path: 'title',
-            name: '认购题目',
-            component: () => import('@/views/extend/subscribe/title'),
-            meta: { title: '认购题目'},
-          }, 
-        ],
-         
+        path: 'list',
+        name: '管理员列表',
+        component: () => import('@/views/admin/list'),
+        meta: { title: '管理员列表', icon: 'table' }
       },
       {
-        path: 'currency',
+        path: 'log',
+        name: '管理员日志',
+        component: () => import('@/views/admin/log'),
+        meta: { title: '管理员日志', icon: 'form' }
+      }
+    ]
+  }, {
+    path: '/finance',
+    component: Layout,
+    redirect: '/finance/deduct',
+    name: '财务管理',
+    meta: { title: '财务管理', icon: 'example' },
+    children: [
+      {
+        path: 'deduct',
+        name: '万能冲',
+        component: () => import('@/views/finance/deduct'),
+        meta: { title: '万能冲', icon: 'table' }
+      },
+      {
+        path: 'charge',
+        name: '万能扣',
+        component: () => import('@/views/finance/charge'),
+        meta: { title: '万能扣', icon: 'form' }
+      },
+      {
+        path: 'statistics',
+        name: '财务统计',
+        component: () => import('@/views/finance/statistics'),
+        meta: { title: '财务统计', icon: 'form' }
+      }
+    ]
+  }, {
+    path: '/trade',
+    component: Layout,
+    redirect: '/trade/order',
+    name: '交易管理',
+    meta: { title: '交易管理', icon: 'example' },
+    children: [
+      {
+        path: 'order',
+        name: '交易订单',
+        component: () => import('@/views/trade/order'),
+        meta: { title: '交易订单', icon: 'table' }
+      },
+//      {
+//        path: 'log',
+//        name: '交易记录',
+//        component: () => import('@/views/trade/log'),
+//        meta: { title: '交易记录', icon: 'form' }
+//      },
+      {
+        path: 'cancel',
+        name: '自动撤单',
+        component: () => import('@/views/trade/cancel'),
+        meta: { title: '自动撤单', icon: 'form' }
+      }
+    ]
+  }, {
+    path: '/transaction',
+    component: Layout,
+    redirect: '/transaction/manager',
+    name: '专业交易',
+    meta: { title: '专业交易', icon: 'example' },
+    children: [
+      {
+        path: 'manager',
         name: '币种管理',
-        component: () => import('@/views/extend/currency/index'),
-        meta: { title: '币种管理', icon: 'table' },
-  },
+        component: () => import('@/views/transaction/manager'),
+        meta: { title: '币种管理', icon: 'table' }
+      },
+      {
+        path: 'market',
+        name: '交易市场',
+        component: () => import('@/views/transaction/market'),
+        meta: { title: '交易市场', icon: 'form' }
+      },
+      {
+        path: 'partition',
+        name: '市场分区',
+        component: () => import('@/views/transaction/partition'),
+        meta: { title: '市场分区', icon: 'form' }
+      }
+    ]
+  },{
+    path: '/tender',
+    component: Layout,
+    redirect: '/tender/config',
+    name: '法币交易',
+    meta: { title: '法币交易', icon: 'example' },
+    children: [
+//      {
+//        path: 'config',
+//        name: '交易配置',
+//        component: () => import('@/views/tender/config'),
+//        meta: { title: '交易配置', icon: 'table' }
+//      },
+      {
+        path: 'handle',
+        name: '交易处理',
+        component: () => import('@/views/tender/handle'),
+        meta: { title: '交易处理', icon: 'form' }
+      },
+      {
+        path: 'list',
+        name: '商家列表',
+        component: () => import('@/views/tender/list'),
+        meta: { title: '商家列表', icon: 'form' }
+      },
+//      {
+//        path: 'approval',
+//        name: '待审批',
+//        component: () => import('@/views/tender/approval'),
+//        meta: { title: '待审批', icon: 'form' }
+//      }
+    ]
+  },{
+    path: '/subscription',
+    component: Layout,
+    redirect: '/subscription/market',
+    name: '认购管理',
+    meta: { title: '认购管理', icon: 'example' },
+    children: [
+      {
+        path: 'market',
+        name: '认购市场',
+        component: () => import('@/views/subscription/market'),
+        meta: { title: '认购市场', icon: 'table' }
+      },
+      {
+        path: 'config',
+        name: '认购配置',
+        component: () => import('@/views/subscription/config'),
+        meta: { title: '认购配置', icon: 'form' }
+      },
+      {
+        path: 'log',
+        name: '认购记录',
+        component: () => import('@/views/subscription/log'),
+        meta: { title: '认购记录', icon: 'form' }
+      },
+      {
+        path: 'theme',
+        name: '认购主题',
+        component: () => import('@/views/subscription/theme'),
+        meta: { title: '认购主题', icon: 'form' }
+      }
+    ]
+  },{
+    path: '/give',
+    component: Layout,
+    redirect: '/give/time',
+    name: '赠送管理',
+    meta: { title: '赠送管理', icon: 'example' },
+    children: [
+      {
+        path: 'time',
+        name: '放行时间',
+        component: () => import('@/views/give/time'),
+        meta: { title: '放行时间', icon: 'table' }
+      },
+      {
+        path: 'log',
+        name: '赠送记录',
+        component: () => import('@/views/give/log'),
+        meta: { title: '赠送记录', icon: 'form' }
+      },
+//      {
+//        path: 'statistics',
+//        name: '赠送统计',
+//        component: () => import('@/views/give/statistics'),
+//        meta: { title: '赠送统计', icon: 'form' }
+//      }
+    ]
+  },{
+    path: '/rankings',
+    component: Layout,
+    redirect: '/rankings/matching',
+    name: '交易排行榜',
+    meta: { title: '交易排行榜', icon: 'example' },
+    children: [
+      {
+        path: 'matching',
+        name: '赠送匹配',
+        component: () => import('@/views/rankings/matching'),
+        meta: { title: '赠送匹配', icon: 'table' }
+      },
+      {
+        path: 'theme',
+        name: '主题',
+        component: () => import('@/views/rankings/theme'),
+        meta: { title: '主题', icon: 'form' }
+      }
+    ]
+  },{
+    path: '/set',
+    component: Layout,
+    redirect: '/set/service',
+    name: '基本设置',
+    meta: { title: '基本设置', icon: 'example' },
+    children: [
+      {
+        path: 'service',
+        name: '客服配置',
+        component: () => import('@/views/set/service'),
+        meta: { title: '客服配置', icon: 'table' }
+      },
+      {
+        path: 'message',
+        name: '短信配置',
+        component: () => import('@/views/set/message'),
+        meta: { title: '短信配置', icon: 'form' }
+      },
+      {
+        path: 'register',
+        name: '注册配置',
+        component: () => import('@/views/set/register'),
+        meta: { title: '注册配置', icon: 'form' }
+      },
+      {
+        path: 'distribution',
+        name: '分销说明',
+        component: () => import('@/views/set/distribution'),
+        meta: { title: '分销说明', icon: 'form' }
+      },
+//      {
+//        path: 'rate',
+//        name: '费率说明',
+//        component: () => import('@/views/set/rate'),
+//        meta: { title: '费率说明', icon: 'form' }
+//      }
+    ]
+  },{
+    path: '/jurisdiction',
+    component: Layout,
+    redirect: '/jurisdiction/manager',
+    name: '权限管理',
+    meta: { title: '权限管理', icon: 'example' },
+    children: [
+      {
+        path: 'manager',
+        name: '角色管理',
+        component: () => import('@/views/jurisdiction/manager'),
+        meta: { title: '角色管理', icon: 'table' }
+      },
+      {
+        path: 'list',
+        name: '权限列表',
+        component: () => import('@/views/jurisdiction/list'),
+        meta: { title: '权限列表', icon: 'form' }
+      },
+      {
+        path: 'authorization',
+        name: '用户授权',
+        component: () => import('@/views/jurisdiction/authorization'),
+        meta: { title: '用户授权', icon: 'form' }
+      }
     ]
   },
-  
-//  { path: '*', redirect: '/404', hidden: true }
+/*    {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/backups',
+    name: '系统工具',
+    meta: { title: '系统工具', icon: 'example' },
+    children: [
+      {
+        path: 'backups',
+        name: '备份',
+        component: () => import('@/views/system/backups'),
+        meta: { title: '备份', icon: 'table' }
+      },
+      {
+        path: 'reduction',
+        name: '还原',
+        component: () => import('@/views/system/reduction'),
+        meta: { title: '还原', icon: 'form' }
+      },
+    ]
+  },*/
+    {
+    path: '/notice',
+    component: Layout,
+    redirect: '/notice/config',
+    name: '公告管理',
+    meta: { title: '公告管理', icon: 'example' },
+    children: [
+//      {
+//        path: 'config',
+//        name: '内容配置',
+//        component: () => import('@/views/notice/config'),
+//        meta: { title: '内容配置', icon: 'table' }
+//      }, 
+    {
+        path: 'history',
+        name: '历史公告',
+        component: () => import('@/views/notice/history'),
+        meta: { title: '历史公告', icon: 'table' }
+      },
+    ]
+  },
+  { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({

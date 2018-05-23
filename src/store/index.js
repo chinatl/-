@@ -8,12 +8,16 @@ import getters from './getters'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-	modules: {
-		app,
-		user,
-		loading
-	},
-	getters
+    modules: {
+        app,
+        user,
+        loading
+    },
+    getters,
+    state: {
+        islogin: 'null',
+        menu: []
+    }
 })
 
 export default store

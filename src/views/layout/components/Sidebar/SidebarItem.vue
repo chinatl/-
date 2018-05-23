@@ -15,7 +15,7 @@
           <span v-if="item.meta&&item.meta.title">{{item.meta.title}}</span>
         </template>
 
-        <template v-for="child in item.children" v-if="!child.hidden">
+<template v-for="child in item.children" v-if="!child.hidden">
           <sidebar-item :is-nest="true" class="nest-menu" v-if="child.children&&child.children.length>0" :routes="[child]" :key="child.path"></sidebar-item>
 
           <router-link v-else :to="item.path+'/'+child.path" :key="child.name">
@@ -25,23 +25,24 @@
             </el-menu-item>
           </router-link>
         </template>
-      </el-submenu>
+</el-submenu>
 
-    </template>
-  </div>
+</template>
+</div>
 </template>
 
 <script>
-export default {
-  name: 'SidebarItem',
-  props: {
-    routes: {
-      type: Array
-    },
-    isNest: {
-      type: Boolean,
-      default: false
+    export default {
+        name: 'SidebarItem',
+        props: {
+            routes: {
+                type: Array
+            },
+            isNest: {
+                type: Boolean,
+                default: false
+            }
+        }
     }
-  }
-}
+
 </script>

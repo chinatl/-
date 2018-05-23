@@ -5,8 +5,8 @@
       </el-input>
       <el-select  style="width:200px"  v-model="listQuery.vStatus" placeholder="全部状态" >
         <el-option label="全部状态" value="2"></el-option>
-        <el-option label="开启" value="1"></el-option>
-        <el-option label="关闭" value="0"></el-option>
+        <el-option label="开启" value="0"></el-option>
+        <el-option label="关闭" value="1"></el-option>
       </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="select_item">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" @click="add_item" type="primary" icon="el-icon-edit">添加</el-button>
@@ -106,7 +106,7 @@
 		<el-form-item label="标志url：" prop="type">
 			<el-upload class="upload-demo" ref="upload" 
 			:on-success='upload_success'
-			action="currencyManagement/addCurrencyManagement" :on-preview="handlePreview" :on-remove="handleRemove" :data="form" :file-list="fileList" :on-error='upload_error' :auto-upload="false">
+			action="currencyManagement/addCurrencyManagement" :on-preview="handlePreview" :on-remove="handleRemove" :data="form" :file-list="fileList" :on-error='upload_error' :auto-upload="false" style='width:240px'>
 				<el-button slot="trigger" size="small" type="primary">选取文件</el-button>
 				<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
 			</el-upload>

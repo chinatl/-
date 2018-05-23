@@ -20,6 +20,7 @@ export default obj => {
 				obj.fail && obj.fail(res.body)
 			}
 		}).catch(res => {
+			console.log(res)
 			Message.error('网页延迟');
 			Store.state.loading.loading = false;
 		})

@@ -5,8 +5,8 @@
       </el-input>
       <el-select  style="width:200px"  v-model="listQuery.tradeType" placeholder="全部状态">
         <el-option label="全部状态" value="2"></el-option>
-        <el-option label="已启用" value="1"></el-option>
-        <el-option label="未启用" value="0"></el-option>
+        <el-option label="已启用" value="0"></el-option>
+        <el-option label="未启用" value="1"></el-option>
       </el-select>
       <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="select_item">搜索</el-button>
       <el-button class="filter-item" style="margin-left: 10px;" @click="add_item" type="primary" icon="el-icon-edit">添加</el-button>
@@ -243,24 +243,35 @@
 					this.list = res.data;
 					this.total = res.extra.pageData.totalCount;
 				}
-			})
+			}),
+
+				Get({
+					url: 'currencyManage/findrest',
+					data: {
+						tradeMarket:"this.form.shortName +'_'+ this.form.basisV",
+					},
+					success: res => {
+						this.list = res.data;
+						this.total = res.extra.pageData.totalCount;
+					}
+				})
 		},
 		methods: {
 			init() {
 				Get({
-					url: 'currencyManage/findrest',
+					url: 'currencyManage/findAll',
 					data: {
 						tradeMarket:this.listQuery.tradeMarket,
 						tradeType: this.listQuery.tradeType,
-						shortName: this.listQuery.shortName,
-						latestPrize:this.listQuery.latestPrize,
-						minPrize:this.listQuery.minPrize,
-						maxPrize:this.listQuery.maxPrize,
-						tradeAmount:this.listQuery.tradeAmount,
-						roseFall:this.listQuery.roseFall,
-						buyCost:this.listQuery.buyCost,
-						sellCost:this.listQuery.sellCost,
-						pageSize: this.listQuery.pageSize,
+						// shortName: this.listQuery.shortName,
+						// latestPrize:this.listQuery.latestPrize,
+						// minPrize:this.listQuery.minPrize,
+						// maxPrize:this.listQuery.maxPrize,
+						// tradeAmount:this.listQuery.tradeAmount,
+						// roseFall:this.listQuery.roseFall,
+						// buyCost:this.listQuery.buyCost,
+						// sellCost:this.listQuery.sellCost,
+						// pageSize: this.listQuery.pageSize,
 					},
 					success: res => {
 						this.list = res.data;

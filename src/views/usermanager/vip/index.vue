@@ -19,9 +19,6 @@
 					type: 'add'
 				}],
 				form_data: [{
-					label: 'id',
-					prop: 'id',
-				}, {
 					label: 'vip等级',
 					prop: 'viplevel',
 					type: 'select',
@@ -47,10 +44,6 @@
 					prop: 'reflectPoundageDiscount',
 				}],
 				table_data: [{
-					label: 'id',
-					prop: 'id',
-					width: 80
-				}, {
 					label: 'vip等级',
 					prop: 'viplevel'
 				}, {
